@@ -1,17 +1,15 @@
 package controller;
 
-import model.AbstractModel;
 import model.Facade;
 import view.MainView;
 
-public class MainController extends AbstractController{
+public class MainController {
 
 	private MainView mainView;
 	private Facade fac;
 	
-	public MainController(AbstractModel mod){
-		super(mod);
+	public MainController(Facade fac){
+		this.fac = fac;
 	}
 	
-	// TOUTES LES METHODES DU CONTROLEUR
 }
