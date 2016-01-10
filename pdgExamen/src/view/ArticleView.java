@@ -25,7 +25,7 @@ public class ArticleView extends JFrame implements Observer {
 
 	// Les attributs
 	private JPanel container = new JPanel();
-	private ArticleController controler;
+	private ArticleController controller;
 
 	private JPanel orderDetails = new JPanel();
 	private JLabel numTable = new JLabel();
@@ -36,17 +36,17 @@ public class ArticleView extends JFrame implements Observer {
 	private JPanel articleTable = new JPanel();
 	private JScrollPane articleDB = new JScrollPane();
 	private JScrollPane articleOrder = new JScrollPane();
-	private JList listDB;
-	private List <Article> articles;
+	private List <Article> articles = Facade.getFacade().getListeArticles(null, null);
+	private JList listDB = new JList (articles.toArray());
 
 	// Le constructeurt
-	public ArticleView(ArticleController controler) {
+	public ArticleView(ArticleController controller) {
 		this.setTitle("Ajout article");
 		this.setSize(1080, 700);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setLocationRelativeTo(null);
 		initGui();
-		this.controler = controler;
+		this.controller = controller;
 		this.setContentPane(container);
 		this.setVisible(true);
 	}
@@ -92,12 +92,13 @@ public class ArticleView extends JFrame implements Observer {
 		JButton drink = new JButton("Boisson");
 		drink.addActionListener(new DrinkListener());
 		articleType.add(drink);
+		JButton sauce = new JButton("Sauce");
+		sauce.addActionListener(new SauceListener());
+		articleType.add(sauce);
 		// Positionnement du JPanel articleType au "centre" du JPanel principal
 		container.add(articleType, BorderLayout.CENTER);
 
 		// Initialisation du panel des articles
-		this.articles = Facade.getFacade().getListeArticles(null, null);
-		this.listDB = new JList (articles.toArray());
 		this.articleDB = new JScrollPane(listDB);
 		articleTable.add(articleDB);
 		container.add(articleTable, BorderLayout.SOUTH);
@@ -124,28 +125,33 @@ public class ArticleView extends JFrame implements Observer {
 	
 	class StarterListener implements ActionListener {
 		public void actionPerformed (ActionEvent e) {
-			System.out.println("Entrée");
+			controller.setListDb(1);
 		}
 	}
 	class MainDishListener implements ActionListener {
 		public void actionPerformed (ActionEvent e) {
-			System.out.println("Plat principal");
+			controller.setListDb(2);
 		}
 	}
 	class DessertListener implements ActionListener {
 		public void actionPerformed (ActionEvent e) {
-			System.out.println("Dessert");
+			controller.setListDb(3);
 		}
 	}
 	class DrinkListener implements ActionListener {
 		public void actionPerformed (ActionEvent e) {
-			System.out.println("Boisson");
+			controller.setListDb(4);
 		}
 	}
-
+	class SauceListener implements ActionListener {
+		public void actionPerformed (ActionEvent e) {
+			controller.setListDb(5);
+		}
+	}
 	@Override
 	public void update(Observable o, Object arg) {
-		// TODO Auto-generated method stub
+
+		listDB.setListData(this.controller.getListDB().toArray());
 
 	}
 

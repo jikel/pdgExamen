@@ -10,6 +10,7 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
 
+import javax.swing.JList;
 import javax.swing.JOptionPane;
 
 import model.Article.Groupe;
@@ -98,6 +99,7 @@ public class Facade extends Observable {
     //------------------------------------ 
     private String numTable = new String ("7");
     private String numOrder = new String("2");
+    private List listDB ;
    
     // Facade accessible de manière static afin de ne pas avoir besoin de l'instancier
     public static Facade fac;
@@ -597,4 +599,38 @@ public class Facade extends Observable {
     	return this.numOrder;
     }
     
+    public List getListDb(){
+    	return this.listDB;
+    }
+    
+    public void setListDb(int btnMenu){
+    	switch (btnMenu) {
+		case 1:
+			this.listDB = Facade.getFacade().getListeArticles(Article.Groupe.ENTREE, null);
+			setChanged();
+			notifyObservers();
+			break;
+		case 2:
+			this.listDB = Facade.getFacade().getListeArticles(Article.Groupe.PLAT, null);
+			setChanged();
+			notifyObservers();
+			break;
+		case 3:
+			this.listDB = Facade.getFacade().getListeArticles(Article.Groupe.DESSERT, null);
+			setChanged();
+			notifyObservers();
+			break;
+		case 4:
+			this.listDB = Facade.getFacade().getListeArticles(Article.Groupe.BOISSONS, null);
+			setChanged();
+			notifyObservers();
+			break;
+		default:
+			this.listDB = Facade.getFacade().getListeArticles(Article.Groupe.DIVERS, null);
+			setChanged();
+			notifyObservers();
+			break;
+		}
+    }
+   
 }
