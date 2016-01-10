@@ -1,14 +1,15 @@
 package view;
 
 import java.awt.BorderLayout;
-import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Observable;
 import java.util.Observer;
 
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -35,12 +36,12 @@ public class ArticleView extends JFrame implements Observer {
 	private JTable table ;
 	private String titleTable[]= {"Nom", "Prix", ""};
 	private Object[][] data ={
-			{"Coca", "2,50 €", "ajouter"},
-			{"Coca zéro", "2,50 €", "ajouter"},
-			{"Fanta", "2,50 €", "ajouter"},
-			{"Sprite", "2,50 €", "ajouter"},
-			{"Minute maid", "3,50 €", "ajouter"},
-			{"Nestea", "3,00 €", "ajouter"}
+			{"Coca", "2,50 €", new JButton("ajouter")},
+			{"Coca zéro", "2,50 €", new JButton("ajouter")},
+			{"Fanta", "2,50 €", new JButton("ajouter")},
+			{"Sprite", "2,50 €", new JButton("ajouter")},
+			{"Minute maid", "3,50 €", new JButton("ajouter")},
+			{"Nestea", "3,00 €", new JButton("ajouter")}
 	};
 
 	// Le constructeurt
@@ -58,6 +59,7 @@ public class ArticleView extends JFrame implements Observer {
 	public void initGui() {
 
 		container.setLayout(new BorderLayout());
+		
 
 		// Initialisation du panel des détails des commandes
 		orderDetails.setLayout(new GridLayout(0, 5, 0, 0));
@@ -98,8 +100,17 @@ public class ArticleView extends JFrame implements Observer {
 
 		// Initialisation du panel des articles
 		this.table = new JTable(data, titleTable);
+		this.table.setDefaultRenderer(JComponent.class, new TableComponent());
+		this.table.getColumn("").setCellRenderer(new ButtonRenderer());
+		articleTable.setSize(800, 800);
 		articleTable.add(table);
 		container.add(articleTable, BorderLayout.SOUTH);
+		
+		// Organisation du BoxLayout du JPanel principal
+//		container.setLayout(new BoxLayout(container, BoxLayout.PAGE_AXIS));
+//		container.add(orderDetails);
+//		container.add(articleType);
+//		container.add(articleTable);
 	}
 	
 	// Class des "listeners" des boutons
