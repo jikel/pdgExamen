@@ -4,19 +4,22 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
 import controller.ArticleController;
+import model.Article;
+import model.Facade;
 
 public class ArticleView extends JFrame implements Observer {
 
@@ -33,16 +36,8 @@ public class ArticleView extends JFrame implements Observer {
 	private JPanel articleTable = new JPanel();
 	private JScrollPane articleDB = new JScrollPane();
 	private JScrollPane articleOrder = new JScrollPane();
-	private JTable table ;
-	private String titleTable[]= {"Nom", "Prix", ""};
-	private Object[][] data ={
-			{"Coca", "2,50 €", new JButton("ajouter")},
-			{"Coca zéro", "2,50 €", new JButton("ajouter")},
-			{"Fanta", "2,50 €", new JButton("ajouter")},
-			{"Sprite", "2,50 €", new JButton("ajouter")},
-			{"Minute maid", "3,50 €", new JButton("ajouter")},
-			{"Nestea", "3,00 €", new JButton("ajouter")}
-	};
+	private JList listDB;
+	private List <Article> articles;
 
 	// Le constructeurt
 	public ArticleView(ArticleController controler) {
@@ -65,6 +60,7 @@ public class ArticleView extends JFrame implements Observer {
 		orderDetails.setLayout(new GridLayout(0, 5, 0, 0));
 		// Première ligne
 		orderDetails.add(new JLabel("N° de table:"));
+		numTable.setText(Facade.getFacade().getNumTable());
 		orderDetails.add(numTable);
 		orderDetails.add(new JLabel(""));
 		JButton btnConfirm = new JButton("Confirmer");
@@ -73,6 +69,7 @@ public class ArticleView extends JFrame implements Observer {
 		orderDetails.add(new JLabel(""));
 		// Seconde ligne
 		orderDetails.add(new JLabel("N° de commande"));
+		numOrder.setText(Facade.getFacade().getNumOrder());
 		orderDetails.add(numOrder);
 		orderDetails.add(new JLabel(""));
 		JButton btnCancel = new JButton("Annuler");
@@ -99,11 +96,10 @@ public class ArticleView extends JFrame implements Observer {
 		container.add(articleType, BorderLayout.CENTER);
 
 		// Initialisation du panel des articles
-		this.table = new JTable(data, titleTable);
-		this.table.setDefaultRenderer(JComponent.class, new TableComponent());
-		this.table.getColumn("").setCellRenderer(new ButtonRenderer());
-		articleTable.setSize(800, 800);
-		articleTable.add(table);
+		this.articles = Facade.getFacade().getListeArticles(null, null);
+		this.listDB = new JList (articles.toArray());
+		this.articleDB = new JScrollPane(listDB);
+		articleTable.add(articleDB);
 		container.add(articleTable, BorderLayout.SOUTH);
 		
 		// Organisation du BoxLayout du JPanel principal
