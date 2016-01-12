@@ -101,6 +101,7 @@ public class Facade extends Observable {
     private String numTable = new String ("7");
     private String numOrder = new String("2");
     private List listDB ;
+    private List listOrder;
     private Article articleDbSelected;
     private Article articleOrderSelected;
    
@@ -610,36 +611,22 @@ public class Facade extends Observable {
     	switch (btnMenu) {
 		case 1:
 			this.listDB = Facade.getFacade().getListeArticles(Article.Groupe.ENTREE, null);
-//			setChanged();
-//			notifyObservers();
-//			avertirVues(null);
 			avertirVues(new InfoVue(null, ActionsResto.MODIFICATION_TYPE_ARTICLE, ElementsResto.ARTICLE));
 			break;
 		case 2:
 			this.listDB = Facade.getFacade().getListeArticles(Article.Groupe.PLAT, null);
-//			setChanged();
-//			notifyObservers();
-//			avertirVues(null);
 			avertirVues(new InfoVue(null, ActionsResto.MODIFICATION_TYPE_ARTICLE, ElementsResto.ARTICLE));
 			break;
 		case 3:
 			this.listDB = Facade.getFacade().getListeArticles(Article.Groupe.DESSERT, null);
-//			setChanged();
-//			notifyObservers();
-//			avertirVues(null);
 			avertirVues(new InfoVue(null, ActionsResto.MODIFICATION_TYPE_ARTICLE, ElementsResto.ARTICLE));
 			break;
 		case 4:
 			this.listDB = Facade.getFacade().getListeArticles(Article.Groupe.BOISSONS, null);
-//			setChanged();
-//			notifyObservers();
-//			avertirVues(null);
 			avertirVues(new InfoVue(null, ActionsResto.MODIFICATION_TYPE_ARTICLE, ElementsResto.ARTICLE));
 			break;
 		default:
 			this.listDB = Facade.getFacade().getListeArticles(Article.Groupe.DIVERS, null);
-//			setChanged();
-//			notifyObservers();
 			avertirVues(new InfoVue(null, ActionsResto.MODIFICATION_TYPE_ARTICLE, ElementsResto.ARTICLE));
 			break;
 		}
@@ -651,9 +638,16 @@ public class Facade extends Observable {
     
     public void setArticleDbSelected(Article articleSelected){
     	this.articleDbSelected = articleSelected;
-    //	setChanged();
-    //	notifyObservers();
-    	avertirVues(new InfoVue(null, ActionsResto.AJOUT_LIGNECMD, ElementsResto.LIGNECMD));
+    	avertirVues(new InfoVue(null, ActionsResto.SELECTION_ARTICLE, ElementsResto.LIGNECMD));
+    }
+    
+    public Article getArticleOrderSelected(){
+    	return this.articleOrderSelected;
+    }
+    
+    public void setArticleOrderSelected(Article articleSelected){
+    	this.articleOrderSelected = articleSelected;
+    	avertirVues(new InfoVue(null, ActionsResto.SELECTION_LIGNECMD, ElementsResto.LIGNECMD));
     }
    
 }
