@@ -200,7 +200,6 @@ public class ArticleView extends JFrame implements Observer {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			System.out.println("suppression article de la commande en cours");
-
 		}
 
 	}

@@ -632,6 +632,17 @@ public class Facade extends Observable {
 		}
     }
     
+    public List getListOrder() throws ExceptionResto {
+    	if (this.listOrder == null){
+    		listOrder.add(new Article("", "", 0, null, null));
+    	}
+    	return this.listOrder;
+    }
+    
+    public void setListOrder (Article article){
+    	this.listOrder.add(article);
+    }
+    
     public Article getArticleDbSelected(){
     	return this.articleDbSelected;
     }
