@@ -1,6 +1,7 @@
 package view;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -15,11 +16,15 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
 import javax.swing.JTable;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 import controller.ArticleController;
 import model.Article;
 import model.Facade;
+import model.Facade.InfoVue;
 
 public class ArticleView extends JFrame implements Observer {
 
@@ -99,15 +104,20 @@ public class ArticleView extends JFrame implements Observer {
 		container.add(articleType, BorderLayout.CENTER);
 
 		// Initialisation du panel des articles
+		this.listDB.setSelectedIndex(0);
+		this.listDB.addListSelectionListener(new ArticleDbSelectedListener());
 		this.articleDB = new JScrollPane(listDB);
-		articleTable.add(articleDB);
+		JPanel splitLeft = new JPanel();
+		splitLeft.setLayout(new BorderLayout());
+		splitLeft.add(articleDB, BorderLayout.CENTER);
+		splitLeft.add(new JButton("ajout ligne de commande"), BorderLayout.SOUTH);
+		this.articleDB.setPreferredSize(new Dimension(500, 500));
+		this.articleOrder.setPreferredSize(new Dimension(500, 500));
+//		JSplitPane split = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, articleDB, articleOrder);
+		JSplitPane split = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, splitLeft, articleOrder);
+		articleTable.add(split);
 		container.add(articleTable, BorderLayout.SOUTH);
 		
-		// Organisation du BoxLayout du JPanel principal
-//		container.setLayout(new BoxLayout(container, BoxLayout.PAGE_AXIS));
-//		container.add(orderDetails);
-//		container.add(articleType);
-//		container.add(articleTable);
 	}
 	
 	// Class des "listeners" des boutons
@@ -148,10 +158,33 @@ public class ArticleView extends JFrame implements Observer {
 			controller.setListDb(5);
 		}
 	}
+	
+	class ArticleDbSelectedListener implements ListSelectionListener {
+		public void valueChanged(ListSelectionEvent e){
+			controller.setArticleDbSelected((Article)listDB.getSelectedValue());
+			
+		}
+	}
 	@Override
 	public void update(Observable o, Object arg) {
+		if(arg instanceof InfoVue){
+			InfoVue info = (InfoVue) arg;
+			switch (info.getAction()) {
+			
+			case AJOUT_LIGNECMD:
+//				System.out.println(Facade.getFacade().getArticleDbSelected().toString());
+				System.out.println("ok");
+				break;
 
-		listDB.setListData(this.controller.getListDB().toArray());
+			case MODIFICATION_TYPE_ARTICLE:
+				listDB.setListData(this.controller.getListDB().toArray());
+				break;
+
+			default:
+				break;
+			}
+		}
+
 
 	}
 

@@ -35,6 +35,7 @@ public class Facade extends Observable {
         SUPPRESSION_COMMANDE, 
         MODIFICATION_COMMANDE, 
         SELECTION_COMMANDE, 
+        MODIFICATION_TYPE_ARTICLE,
         AJOUT_LIGNECMD, SUPPRESSION_LIGNECMD, MODIFICATION_LIGNECMD, SELECTION_LIGNECMD, AJOUT_SERVEUR, SUPPRESSION_SERVEUR, MODIFICATION_SERVEUR, SELECTION_SERVEUR, AJOUT_TABLE, SUPPRESSION_TABLE, MODIFICATION_TABLE, SELECTION_TABLE
     };
 
@@ -100,6 +101,8 @@ public class Facade extends Observable {
     private String numTable = new String ("7");
     private String numOrder = new String("2");
     private List listDB ;
+    private Article articleDbSelected;
+    private Article articleOrderSelected;
    
     // Facade accessible de manière static afin de ne pas avoir besoin de l'instancier
     public static Facade fac;
@@ -607,30 +610,50 @@ public class Facade extends Observable {
     	switch (btnMenu) {
 		case 1:
 			this.listDB = Facade.getFacade().getListeArticles(Article.Groupe.ENTREE, null);
-			setChanged();
-			notifyObservers();
+//			setChanged();
+//			notifyObservers();
+//			avertirVues(null);
+			avertirVues(new InfoVue(null, ActionsResto.MODIFICATION_TYPE_ARTICLE, ElementsResto.ARTICLE));
 			break;
 		case 2:
 			this.listDB = Facade.getFacade().getListeArticles(Article.Groupe.PLAT, null);
-			setChanged();
-			notifyObservers();
+//			setChanged();
+//			notifyObservers();
+//			avertirVues(null);
+			avertirVues(new InfoVue(null, ActionsResto.MODIFICATION_TYPE_ARTICLE, ElementsResto.ARTICLE));
 			break;
 		case 3:
 			this.listDB = Facade.getFacade().getListeArticles(Article.Groupe.DESSERT, null);
-			setChanged();
-			notifyObservers();
+//			setChanged();
+//			notifyObservers();
+//			avertirVues(null);
+			avertirVues(new InfoVue(null, ActionsResto.MODIFICATION_TYPE_ARTICLE, ElementsResto.ARTICLE));
 			break;
 		case 4:
 			this.listDB = Facade.getFacade().getListeArticles(Article.Groupe.BOISSONS, null);
-			setChanged();
-			notifyObservers();
+//			setChanged();
+//			notifyObservers();
+//			avertirVues(null);
+			avertirVues(new InfoVue(null, ActionsResto.MODIFICATION_TYPE_ARTICLE, ElementsResto.ARTICLE));
 			break;
 		default:
 			this.listDB = Facade.getFacade().getListeArticles(Article.Groupe.DIVERS, null);
-			setChanged();
-			notifyObservers();
+//			setChanged();
+//			notifyObservers();
+			avertirVues(new InfoVue(null, ActionsResto.MODIFICATION_TYPE_ARTICLE, ElementsResto.ARTICLE));
 			break;
 		}
+    }
+    
+    public Article getArticleDbSelected(){
+    	return this.articleDbSelected;
+    }
+    
+    public void setArticleDbSelected(Article articleSelected){
+    	this.articleDbSelected = articleSelected;
+    //	setChanged();
+    //	notifyObservers();
+    	avertirVues(new InfoVue(null, ActionsResto.AJOUT_LIGNECMD, ElementsResto.LIGNECMD));
     }
    
 }

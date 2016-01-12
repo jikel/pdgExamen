@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.swing.JList;
 
+import model.Article;
 import model.Facade;
 import view.ArticleView;
 
@@ -34,6 +35,14 @@ public class ArticleController {
 	
 	public void setListDb (int btnMenu){
 		Facade.getFacade().setListDb(btnMenu);
+	}
+	
+	public Article getArticleDbSelected() {
+		return Facade.getFacade().getArticleDbSelected();
+	}
+	
+	public void setArticleDbSelected(Article articleSelected){
+		Facade.getFacade().setArticleDbSelected(articleSelected);
 	}
 	
 }
